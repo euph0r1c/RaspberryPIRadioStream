@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Streams</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/mobile_device.css" %}" />
+</head>
+<body>
+{%  if stream_list %}
+    <ul class="stream_list">
+    {%  for stream in stream_list %}
+        <li>
+            <a href="{% url 'homestream:stream' stream.id %}">
+                <img src="{% static "img/"|add:stream.image_url %}" alt="{{ stream.name }}" height="130">
+            </a>
+        </li>
+    {%  endfor %}
+    </ul>
+{%  else %}
+    <p>No streams are available</p>
+{% endif %}
+</body>
+</html>

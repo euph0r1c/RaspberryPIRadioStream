@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>{{ stream.name }}</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/mobile_device.css" %}" />
+</head>
+<body>
+    <div class="vk_stream">
+        <p>
+            <a href="{% url 'homestream:index' %}">Back</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'homestream:reload_playlist' stream.id %}">
+                <img src="{% static 'img/reload.png' %}" alt="reload" height="30">
+            </a>
+        </p>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <p>Most played:</p>
+        <ul>
+            {% for track in stream.track_set.all|dictsortreversed:"nb_plays"|slice:":3" %}
+                <li>
+                    <a href="{% url 'homestream:vk_player' stream.id track.id %}">
+                        <span class="artist">{{ track.artist }}</span> - <span class="track">{{ track.title }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>All tracks:</p>
+        <ul>
+            {% for track in stream.track_set.all %}
+                <li>
+                    <a href="{% url 'homestream:vk_player' stream.id track.id %}">
+                        <span class="artist">{{ track.artist }}</span> - <span class="track">{{ track.title }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

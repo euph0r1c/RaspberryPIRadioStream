@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Playing...</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/mobile_device.css" %}" />
+</head>
+<body>
+    <div class="player">
+        <p><span class="artist">{{ track.artist }}</span> - <span class="track">{{ track.title }}</span></p>
+        <form action="{% url 'homestream:vk_player' stream.id track.id %}" method="post">
+            {% csrf_token %}
+            {% if pid %}
+            <input type="hidden" name="stop" value="1" />
+            {% endif %}
+            <input class="button" type="submit" value="Stop!" />
+        </form>
+    </div>
+</body>
+</html>

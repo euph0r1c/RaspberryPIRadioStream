@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>{{ stream.name }}</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/mobile_device.css" %}" />
+</head>
+<body>
+    <p><a href="{% url 'homestream:index' %}">Back</a></p>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <div class="stream">
+        <p>Most played:</p>
+        <ul>
+            {% for channel in stream.radiochannel_set.all|dictsortreversed:"nb_plays"|slice:":3" %}
+                <li><a href="{% url 'homestream:player' stream.id channel.id %}">
+                    <img src="{% static 'img/radiochannels/'|add:channel.image_url %}" alt="{{ channel.name }}" height="85"></a></li>
+            {% endfor %}
+        </ul>
+        <p>All channels:</p>
+        <ul>
+            {% for channel in stream.radiochannel_set.all %}
+                <li><a href="{% url 'homestream:player' stream.id channel.id %}">
+                    <img src="{% static 'img/radiochannels/'|add:channel.image_url %}" alt="{{ channel.name }}" height="85"></a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
